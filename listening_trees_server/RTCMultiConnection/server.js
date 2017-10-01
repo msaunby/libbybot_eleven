@@ -280,15 +280,29 @@ function runServer() {
         console.log('Need help? http://bit.ly/2ff7QGk');
     });
 
-    require('./Signaling-Server.js')(app, function(socket) {
+    require('./Signaling-Server.js')(app, function(socket, users) {
         try {
             var params = socket.handshake.query;
 
-            console.log("Line 287", params);
-            benches[params.userid] = {
-            id:params.userid,
-            session:params.sessionid,
-            prob:0.5};
+            //console.log("Line 287", params);
+            for(var u in users){
+              console.log("user", u);
+              // console.dir( users[u], {depth:1});
+              console.log(  users[u].socket.rooms );
+            }
+            for(var b in benches){
+              benches.status = "pending";
+            }
+            for(var id in users){
+              benches[id] = {
+                id:id, status:"active", prob:0.5,
+                //session:users.id
+              }
+            }
+            //benches[params.userid] = {
+            //id:params.userid,
+            //session:params.sessionid,
+            //prob:0.5};
 
             //
             // sessionid
