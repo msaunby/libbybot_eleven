@@ -21,6 +21,8 @@
 
     <h2>Listening Trees status</h2>
     <hr>
+    <a target="_blank" href="bench.html">Virtual bench</a>
+    <hr>
     <h3>Benches</h3>
     <div id="tags">
     </div>
@@ -65,10 +67,11 @@
         for(var d in data){
          r = {id:data[d].id};
          if(data[d].prob) r["prob"] = Number(data[d].prob).toFixed(1);
+         if(data[d].session) r["session"] = data[d].session;
          rows.push( r );
         }
         console.log("tag data", rows);
-        tabulate(rows, ['id', 'prob']);
+        tabulate(rows, ['id', 'prob', 'session']);
       }
     </script>
 

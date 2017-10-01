@@ -58,28 +58,23 @@ function serverHandler(request, response) {
         var reqURL = url.parse(request.url);
         var uri = reqURL.pathname;
 
-        console.log("uri", uri);
+        //console.log("uri", uri);
 
         if (uri == '/benchinfo') {
             response.setHeader('Content-Type', 'application/json');
             response.setHeader('Cache-Control', 'no-cache, no-store');
-            console.log("info", benches);
             var barray = [];
             for( var b in benches ){
               barray.push(benches[b]);
             }
-            console.log(JSON.stringify(barray));
             response.end(JSON.stringify(barray));
             return;
         }else if (uri == '/benchstatus') {
             var query = queryString.parse( reqURL.query );
-            console.log("query", query);
             benches[query.id] = query;
-            console.log( benches );
             response.end();
             return;
         }
-
 
         var filename = path.join(process.cwd(), uri);
 
@@ -289,20 +284,21 @@ function runServer() {
         try {
             var params = socket.handshake.query;
 
-            console.log(params);
+            console.log("Line 287", params);
+            benches[params.userid] = {
+            id:params.userid,
+            session:params.sessionid,
+            prob:0.5};
 
-            if(params.socketCustomEvent && params.socketCustomEvent!=""){
-                    var arr = params.socketCustomEvent.split(" ");
+            //
+            // sessionid
+            //
 
-                    // notification if you wish; requires a twitter account
-                    // and installing 't' - https://github.com/sferik/t
-                    if(arr[0]=="libbybot"){
-                      console.log("libbybot has joined");
-                      var roomName = arr[1];
-                      //var str = "/usr/local/bin/t dm @you \"libbybot is live at "+roomName+"\" >  tweetlog_online.txt 2>&1";
-                      exec(str);
-                    }
-            }
+            //if(params.socketCustomEvent && params.socketCustomEvent!=""){
+
+                    // Libbybot notification was here.  Not required for
+                    // Listening Trees.
+            //}
             // "socket" object is totally in your own hands!
             // do whatever you want!
 
