@@ -199,6 +199,21 @@ if (roomid && roomid.length) {
 
     disableInputButtons();
 }
+
+var piStateInt =  setInterval(()=>{
+$.ajax({
+  method: 'GET',
+  url: 'http://localhost:8080/pistate'
+})
+.done((data)=>{
+   console.log("pistate data", data);
+   //show_tag_data(data);
+   //for(var bench in data){
+    // console.log("bench", data[bench]);
+   //}
+});
+}, 4000);
+
 </script>
 
   <footer>
