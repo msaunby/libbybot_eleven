@@ -205,7 +205,9 @@ if (roomid && roomid.length) {
 var piStateInt =  setInterval(()=>{
 $.ajax({
   method: 'GET',
-  url: 'https://localhost:8443/pistate'
+  url: 'https://localhost:8443/pistate',
+  crossDomain: true,
+  dataType: 'jsonp'
 })
 .done((data)=>{
    console.log("pistate data", data);
