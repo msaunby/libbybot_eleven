@@ -202,21 +202,27 @@ if (roomid && roomid.length) {
     disableInputButtons();
 }
 
-var piStateInt =  setInterval(()=>{
+var driftTimer = setInterval(()=>{
 $.ajax({
   method: 'GET',
-  url: 'https://localhost:8443/pistate',
   crossDomain: true,
-  dataType: 'jsonp'
+  url: 'https://localhost:8443/pistate'
 })
 .done((data)=>{
-   console.log("pistate data", data);
-   //show_tag_data(data);
-   //for(var bench in data){
-    // console.log("bench", data[bench]);
-   //}
+  console.log('pistate', data);
+  var last_trig = (data.now - data.trigger) / 1000;
+  console.log('last_trig', last_trig);
+  if(last_trig < 5 ){
+    join_conversation();
+  }
+  if(last_trig > 10){
+    leave_conversation();
+  }
+})
+.fail((data,error)=>{
+    noConnection();
 });
-}, 4000);
+}, 1000);
 
 </script>
 
