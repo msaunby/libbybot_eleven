@@ -202,6 +202,17 @@ if (roomid && roomid.length) {
     disableInputButtons();
 }
 
+function join_conversation()
+{
+
+}
+
+function leave_conversation()
+{
+   console.log("Leave conversation");
+   window.close();
+}
+
 var driftTimer = setInterval(()=>{
 $.ajax({
   method: 'GET',
