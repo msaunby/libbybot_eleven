@@ -73,10 +73,11 @@
          r = {id:data[d].id};
          if(data[d].prob) r["prob"] = Number(data[d].prob).toFixed(1);
          if(data[d].session) r["session"] = data[d].session;
+         if(data[d].time) r["time"] = new Date(data[d].time);
          rows.push( r );
         }
         console.log("tag data", rows);
-        tabulate(rows, ['id', 'prob', 'session']);
+        tabulate(rows, ['id', 'prob', 'session', 'time']);
       }
     </script>
 
@@ -104,7 +105,7 @@
     .done((data)=>{
        console.log("data", data);
        for(var guest in data){
-         console.log("guest", data[bench]);
+         console.log("guest", data[guest]);
        }
     });
   }, 2000);
