@@ -57,7 +57,13 @@ document.getElementById('join-conversation').onclick = function() {
     })
     .done((data)=>{
       var roomid = data['roomid'];
-      alert("joining conversation " + roomid);
+      document.getElementById('room-id').value = roomid;
+      disableInputButtons();
+      connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
+          if (!isRoomExist) {
+              showRoomURL(roomid);
+          }
+      });
     })
     .fail((data,error)=>{
         //

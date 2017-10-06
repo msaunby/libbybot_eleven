@@ -75,6 +75,8 @@ function serverHandler(request, response) {
             response.end();
             return;
         }else if (uri == '/getroomid') {
+          response.setHeader('Content-Type', 'application/json');
+          response.setHeader('Cache-Control', 'no-cache, no-store');
           var query = queryString.parse( reqURL.query );
           if(query.type == 'guest'){
             var roomid = "G" + Date.now();
