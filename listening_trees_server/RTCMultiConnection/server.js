@@ -52,6 +52,7 @@ const url = require('url');
 const queryString = require('querystring');
 
 var benches = {};
+var guests = {};
 
 function serverHandler(request, response) {
     try {
@@ -69,6 +70,16 @@ function serverHandler(request, response) {
             }
             response.end(JSON.stringify(barray));
             return;
+        }else if (uri == '/guestinfo') {
+            response.setHeader('Content-Type', 'application/json');
+            response.setHeader('Cache-Control', 'no-cache, no-store');
+            var garray = [];
+            for( var g in guests ){
+              garray.push(guests[g]);
+            }
+            response.end(JSON.stringify(garray));
+            console.log("guests", guests);
+            return;
         }else if (uri == '/benchstatus') {
             var query = queryString.parse( reqURL.query );
             benches[query.id] = query;
@@ -80,6 +91,7 @@ function serverHandler(request, response) {
           var query = queryString.parse( reqURL.query );
           if(query.type == 'guest'){
             var roomid = "G" + Date.now();
+            guests[roomid]={roomid:roomid,invite:true};
             response.end(JSON.stringify({roomid:roomid}));
           }else{
             var roomid = "B" + Date.now();
@@ -112,11 +124,13 @@ function serverHandler(request, response) {
                 return;
             }
         } catch (e) {
+          /*
             response.writeHead(404, {
                 'Content-Type': 'text/plain'
             });
             response.write('404 Not Found: ' + path.join('/', uri) + '\n');
             response.end();
+            */
             return;
         }
 
@@ -190,12 +204,15 @@ function serverHandler(request, response) {
             response.end();
         });
     } catch (e) {
-        response.writeHead(404, {
-            'Content-Type': 'text/plain'
-        });
-        response.write('<h1>Unexpected error:</h1><br><br>' + e.stack || e.message || JSON.stringify(e));
-        response.end();
+      console.log("205", e);
+
+        //response.writeHead(404, {
+        //    'Content-Type': 'text/plain'
+        //});
+        //response.write('<h1>Unexpected error:</h1><br><br>' + e.stack || e.message || JSON.stringify(e));
+        //response.end();
     }
+
 }
 
 var app;

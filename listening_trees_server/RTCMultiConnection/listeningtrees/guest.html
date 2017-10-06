@@ -26,9 +26,11 @@
   <section class="make-center">
     <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
     <button id="join-conversation">Join conversation</button>
+
     <button id="open-room">Open Room</button>
     <button id="join-room">Join Room</button>
     <button id="open-or-join-room">Auto Open Or Join Room</button>
+    
 
     <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
 
@@ -58,7 +60,7 @@ document.getElementById('join-conversation').onclick = function() {
     .done((data)=>{
       var roomid = data['roomid'];
       document.getElementById('room-id').value = roomid;
-      disableInputButtons();
+      document.getElementById('join-conversation').disabled = true;
       connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
           if (!isRoomExist) {
               showRoomURL(roomid);
