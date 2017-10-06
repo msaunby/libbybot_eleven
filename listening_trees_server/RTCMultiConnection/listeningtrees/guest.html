@@ -25,6 +25,7 @@
 
   <section class="make-center">
     <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
+    <button id="join-conversation">Join conversation</button>
     <button id="open-room">Open Room</button>
     <button id="join-room">Join Room</button>
     <button id="open-or-join-room">Auto Open Or Join Room</button>
@@ -44,6 +45,16 @@
 // ......................................................
 // .......................UI Code........................
 // ......................................................
+document.getElementById('join-conversation').onclick = function() {
+    //disableInputButtons();
+    //connection.open(document.getElementById('room-id').value, function() {
+    //    showRoomURL(connection.sessionid);
+    //});
+    alert("joining conversation");
+    // check if there is a conversation to join
+    // start a new conversation
+};
+
 document.getElementById('open-room').onclick = function() {
     disableInputButtons();
     connection.open(document.getElementById('room-id').value, function() {
