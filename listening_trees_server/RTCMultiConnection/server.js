@@ -116,6 +116,7 @@ function serverHandler(request, response) {
             var query = queryString.parse( reqURL.query );
             benches[query.id] = query;
             response.end();
+            console.log("benchstatus", query);
             return;
         }else if (uri == '/getroomid') {
           response.setHeader('Content-Type', 'application/json');
