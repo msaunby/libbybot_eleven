@@ -52,7 +52,39 @@ const url = require('url');
 const queryString = require('querystring');
 
 var benches = {};
-var guests = {};
+var guests = {next:0};
+var conver = {next:0}; // bench conversations
+
+function next_guest(){
+  var roomid;
+  if (guests.next) {
+    roomid = guests.next;
+    guests[roomid].count = 2;
+    guests.next = 0;
+  }else{
+    roomid = "G" + Date.now();
+    guests.next = roomid;
+    guests[roomid]={roomid:roomid,count:1};
+  }
+  return roomid;
+}
+
+function next_conver(){
+  var roomid;
+  if (conver.next) {
+    roomid = conver.next;
+    conver[roomid].count = 2;
+    conver.next = 0;
+  }else{
+    roomid = "G" + Date.now();
+    conver.next = roomid;
+    conver[roomid]={roomid:roomid,count:1};
+  }
+  return roomid;
+}
+
+
+
 
 function serverHandler(request, response) {
     try {
@@ -78,7 +110,6 @@ function serverHandler(request, response) {
               garray.push(guests[g]);
             }
             response.end(JSON.stringify(garray));
-            console.log("guests", guests);
             return;
         }else if (uri == '/benchstatus') {
             var query = queryString.parse( reqURL.query );
@@ -90,11 +121,10 @@ function serverHandler(request, response) {
           response.setHeader('Cache-Control', 'no-cache, no-store');
           var query = queryString.parse( reqURL.query );
           if(query.type == 'guest'){
-            var roomid = "G" + Date.now();
-            guests[roomid]={roomid:roomid,invite:true};
+            var roomid = next_guest();
             response.end(JSON.stringify({roomid:roomid}));
           }else{
-            var roomid = "B" + Date.now();
+            var roomid = next_conver();
             response.end(JSON.stringify({roomid:roomid}));
           }
         }
@@ -316,7 +346,7 @@ function runServer() {
             for(var u in users){
               console.log("user", u);
               // console.dir( users[u], {depth:1});
-              console.log(  users[u].socket.rooms );
+              console.log(  users[u] );
             }
             for(var b in benches){
               benches.status = "pending";
