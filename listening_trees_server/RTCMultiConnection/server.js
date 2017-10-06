@@ -76,7 +76,7 @@ function next_conver(){
     conver[roomid].count = 2;
     conver.next = 0;
   }else{
-    roomid = "G" + Date.now();
+    roomid = "B" + Date.now();
     conver.next = roomid;
     conver[roomid]={roomid:roomid,count:1};
   }
@@ -127,6 +127,10 @@ function serverHandler(request, response) {
             var roomid = next_conver();
             response.end(JSON.stringify({roomid:roomid}));
           }
+        }else if (uri == '/checkin') {
+          var query = queryString.parse( reqURL.query );
+          benches[query.id] = query;
+          response.end();
         }
 
         var filename = path.join(process.cwd(), uri);
@@ -348,15 +352,15 @@ function runServer() {
               // console.dir( users[u], {depth:1});
               console.log(  users[u] );
             }
-            for(var b in benches){
-              benches.status = "pending";
-            }
-            for(var id in users){
-              benches[id] = {
-                id:id, status:"active", prob:0.5,
-                //session:users.id
-              }
-            }
+            //for(var b in benches){
+            //  benches.status = "pending";
+            //}
+            //for(var id in users){
+            //  benches[id] = {
+            //    id:id, status:"active", prob:0.5,
+            //    //session:users.id
+            //  }
+            //}
             //benches[params.userid] = {
             //id:params.userid,
             //session:params.sessionid,
