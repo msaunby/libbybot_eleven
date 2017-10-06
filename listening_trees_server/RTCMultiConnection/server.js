@@ -74,6 +74,15 @@ function serverHandler(request, response) {
             benches[query.id] = query;
             response.end();
             return;
+        }else if (uri == '/getroomid') {
+          var query = queryString.parse( reqURL.query );
+          if(query.type == 'guest'){
+            var roomid = "G" + Date.now();
+            response.end(JSON.stringify({roomid:roomid}));
+          }else{
+            var roomid = "B" + Date.now();
+            response.end(JSON.stringify({roomid:roomid}));
+          }
         }
 
         var filename = path.join(process.cwd(), uri);

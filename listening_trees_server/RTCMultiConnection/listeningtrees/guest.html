@@ -50,7 +50,19 @@ document.getElementById('join-conversation').onclick = function() {
     //connection.open(document.getElementById('room-id').value, function() {
     //    showRoomURL(connection.sessionid);
     //});
-    alert("joining conversation");
+    $.ajax({
+      method: 'GET',
+      crossDomain: true,
+      url: '/getroomid?type=guest'
+    })
+    .done((data)=>{
+      var roomid = data['roomid'];
+      alert("joining conversation " + roomid);
+    })
+    .fail((data,error)=>{
+        //
+    });
+
     // check if there is a conversation to join
     // start a new conversation
 };
