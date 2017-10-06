@@ -112,6 +112,7 @@ function serverHandler(request, response) {
             response.end(JSON.stringify(garray));
             return;
         }else if (uri == '/benchstatus') {
+            response.setHeader('Access-Control-Allow-Origin', '*');
             var query = queryString.parse( reqURL.query );
             benches[query.id] = query;
             response.end();
@@ -128,6 +129,7 @@ function serverHandler(request, response) {
             response.end(JSON.stringify({roomid:roomid}));
           }
         }else if (uri == '/checkin') {
+          response.setHeader('Access-Control-Allow-Origin', '*');
           var query = queryString.parse( reqURL.query );
           benches[query.id] = query;
           response.end();
