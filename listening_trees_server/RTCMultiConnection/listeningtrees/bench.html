@@ -159,17 +159,17 @@ function showRoomURL(roomid) {
     window.params = params;
 })();
 
-var roomid = '';
-if (localStorage.getItem(connection.socketMessageEvent)) {
-    roomid = localStorage.getItem(connection.socketMessageEvent);
-} else {
-    roomid = connection.token();
-}
+var roomid = 'test';
+
 document.getElementById('room-id').value = roomid;
+
+/*
 document.getElementById('room-id').onkeyup = function() {
     localStorage.setItem(connection.socketMessageEvent, this.value);
 };
+*/
 
+/*
 var hashString = location.hash.replace('#', '');
 if (hashString.length && hashString.indexOf('comment-') == 0) {
     hashString = '';
@@ -180,10 +180,30 @@ if (!roomid && hashString.length) {
     roomid = hashString;
 }
 
-if (roomid && roomid.length) {
-    document.getElementById('room-id').value = roomid;
-    localStorage.setItem(connection.socketMessageEvent, roomid);
+*/
 
+if (true) {
+    //document.getElementById('room-id').value = roomid;
+    //localStorage.setItem(connection.socketMessageEvent, roomid);
+
+    $.ajax({
+      method: 'GET',
+      crossDomain: true,
+      url: '/getroomid'
+    })
+    .done((data)=>{
+      var roomid = data['roomid'];
+      document.getElementById('room-id').value = roomid;
+      connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
+          if (!isRoomExist) {
+              showRoomURL(roomid);
+          }
+      });
+    })
+    .fail((data,error)=>{
+        //
+    });
+/*
     // auto-join-room
     (function reCheckRoomPresence() {
         connection.checkPresence(roomid, function(isRoomExist) {
@@ -197,15 +217,12 @@ if (roomid && roomid.length) {
             setTimeout(reCheckRoomPresence, 5000);
         });
     })();
-
+*/
 
     disableInputButtons();
 }
 
-function join_conversation()
-{
 
-}
 
 function leave_conversation()
 {
@@ -223,15 +240,13 @@ $.ajax({
   console.log('pistate', data);
   var last_trig = (data.now - data.trigger) / 1000;
   console.log('last_trig', last_trig);
-  if(last_trig < 20 ){
-    join_conversation();
-  }
+
   if(last_trig > 60){
     leave_conversation();
   }
 })
 .fail((data,error)=>{
-    noConnection();
+    // probably the test bench
 });
 }, 1000);
 
