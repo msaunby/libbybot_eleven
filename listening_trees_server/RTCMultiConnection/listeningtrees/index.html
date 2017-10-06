@@ -75,6 +75,7 @@
          if(data[d].session) r["session"] = data[d].session;
          if(data[d].time) r["time"] = new Date(Number(data[d].time));
          rows.push( r );
+         console.log("row", r);
         }
         console.log("tag data", rows);
         tabulate(rows, ['id', 'prob', 'session', 'time']);
