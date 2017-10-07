@@ -73,7 +73,7 @@
         console.log("d", data[d]);
          r = {id:data[d].id};
          if(data[d].prob) r["prob"] = Number(data[d].prob).toFixed(1);
-         if(data[d].session) r["role"] = data[d].role;
+         if(data[d].role) r["role"] = data[d].role;
          if(data[d].time) r["time"] = new Date(Number(data[d].time));
          rows.push( r );
          console.log("row", r);
