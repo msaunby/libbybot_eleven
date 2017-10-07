@@ -231,10 +231,11 @@ function leave_conversation()
 }
 
 var driftTimer = setInterval(()=>{
-$.ajax({
+  var roomid = document.getElementById('room-id').value;
+  $.ajax({
   method: 'GET',
   crossDomain: true,
-  url: 'https://localhost:8443/pistate'
+  url: 'https://localhost:8443/pistate?roomid=' + roomid
 })
 .done((data)=>{
   console.log('pistate', data);
