@@ -22,6 +22,7 @@
     <h2>Listening Trees status</h2>
     <hr>
     <a target="_blank" href="guest.html">Join guest conversation</a>
+    <br>
     <a target="_blank" href="test_bench.html">Test bench</a>
     <hr>
     <h3>Benches</h3>
@@ -70,15 +71,15 @@
       function show_tag_data( data ){
         var rows = [];
         for(var d in data){
-        console.log("d", data[d]);
+        //console.log("d", data[d]);
          r = {id:data[d].id};
          if(data[d].prob) r["prob"] = Number(data[d].prob).toFixed(1);
          if(data[d].role) r["role"] = data[d].role;
          if(data[d].time) r["time"] = new Date(Number(data[d].time));
          rows.push( r );
-         console.log("row", r);
+         //console.log("row", r);
         }
-        console.log("tag data", rows);
+        //console.log("tag data", rows);
         tabulate(rows, ['id', 'time', 'role']);
       }
     </script>
@@ -91,11 +92,11 @@
         url: '/benchinfo'
       })
       .done((data)=>{
-         console.log("data", data);
+         //console.log("data", data);
          show_tag_data(data);
-         for(var bench in data){
-           console.log("bench", data[bench]);
-         }
+         //for(var bench in data){
+         //   console.log("bench", data[bench]);
+         //}
       });
     }, 2000);
 
